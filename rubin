@@ -1,0 +1,76 @@
+#!/usr/bin/perl -w
+#
+# rubin - coordinate conversion between RUBIN and RT90
+#
+# Copyright (c) 2014 Jörgen Grahn
+# All rights reserved.
+
+use strict;
+use integer;
+
+
+# Given RT90, calculate the name of the economical
+# map, e.g. "7D 9e".
+#
+sub ekon($$) {
+    my ($n, $e) = @_;
+    my ($nkm, $ekm) = ($n/1000, $e/1000);
+
+    my ($nstor, $nekon) = ( 1 + ($nkm - 6100) / 50,
+			    ($nkm % 50) / 5 );
+    my ($estor, $eekon) = ( ($ekm - 1200) / 50,
+			    ($ekm % 50) / 5 );
+    ($estor, $eekon) = ( chr(ord('A') + $estor),
+			 chr(ord('a') + $eekon) );
+    return "$nstor$estor $nekon$eekon";
+}
+
+
+sub from_rt90($) {
+    my ($coord) = @_;
+    my $death = "'$coord': malformed RT90 coordinate\n";
+    $coord =~ /([67]\d+) (1[2-9]\d+)/ or die $death;
+    my ($n, $e) = ($1, $2);
+
+    my $len = length $n;
+    $len == length $e or die $death;
+
+    my $res;
+    if($len==7) { $res = 1; }
+    elsif($len==6) { $res = 10; }
+    elsif($len==5) { $res = 100; }
+    elsif($len==4) { $res = 1000; }
+    else {
+	die $death;
+    }
+    ($n, $e) = ($n * $res, $e * $res);
+
+    my $ek = ekon($n, $e);
+
+    my ($nr, $er) = ( $n % 5000, $e % 5000);
+
+    if($res==1 || $res==10) {
+	printf("%s %03d %03d\n", $ek, $nr/10, $er/10);
+    }
+    elsif($res==100) {
+	printf("%s %02d%02d\n", $ek, $nr/100, $er/100);
+    }
+    elsif($res==1000) {
+	printf("%s %d.%d.\n", $ek, $nr/1000, $er/1000);
+    }
+}
+
+
+my $coord = join ' ', @ARGV;
+
+if($coord =~ /^\d+\s\d+$/) {
+    from_rt90 $coord;
+}
+elsif($coord =~ /^\d{1,2}[A-N] [0-9][a-j]/) {
+    from_rubin $coord;
+}
+else {
+    die "'$coord' doesn't seem to be either RT90 or RUBIN\n";
+}
+
+exit 0;
