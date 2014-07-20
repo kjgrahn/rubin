@@ -1,0 +1,138 @@
+.ss 12 0
+.de BP
+.IP \\fB\\$*
+..
+.
+.ds rt90 \s-1RT90\s0
+.ds rubin \s-1RUBIN\s0
+.ds sweref99 \s-1SWEREF\ 99\s0
+.
+.
+.
+.TH rubin 1 "JUL 2014" "RUBIN" "User Manuals"
+.
+.SH "NAME"
+rubin \- coordinate conversion between RUBIN and RT90
+.
+.SH "SYNOPSIS"
+.
+.B rubin
+.I coordinate
+.
+.br
+.B rubin
+.B --help
+.
+.SH "DESCRIPTION"
+.
+.B rubin
+is a small utility for safely converting between
+coordinates according to
+.B \*[rt90]
+and according to
+.BR \*[rubin] .
+.
+.SS "\*[rt90]"
+\*[rt90] (also known as
+.BR "Rikets nät" ,
+the
+.BR "Swedish grid" )
+is the most popular coordinate system for use in Sweden.
+Although \*[sweref99] is slowly replacing it, lots of
+existing data is expressed in that system.
+.PP
+An \*[rt90] coordinate comes with a north and an east part,
+and 4-, 5-, 6- or 7-digit format
+(1km; 100m; 10m; 1m).
+.IP
+.nf
+6441\ 1362
+64415\ 13628
+644159\ 136283
+6441593\ 1362839
+.fi
+.PP
+The original intention was most likely that the coordinate would identify
+a square, with the coordinate sitting in the southwest corner.
+In current (2014) use it's common to see it as the center of
+a circle; in that case the 7-digit, 1m-resolution form is used,
+and with some luck the radius of the circle is given.
+For example,
+.IP
+6441593\ 1362839 \[+-]5m
+.
+.SS "\*[rubin]"
+.
+\*[rubin] is in reality a wide set of standards and conventions used
+in biological surveys, but in this context it's synonymous with its
+coordinate format.
+This is really just a different encoding or notation for \*[rt90], designed
+(among other things) to be more compact.
+Some time during the 1980s it gradually fell out of use, but a lot of
+data from the 1980s is still encoded in \*[rubin].
+.PP
+Like \*[rt90], a \*[rubin] coordinate identifies a square via its
+southwestern corner, and of course also identifies its size.
+.PP
+The base of a coordinate is Lantmäteriverket's encoding of map names,
+which in turn is based on \*[rt90].  For example,
+.IP
+7D\ 9e
+.fi
+.PP
+7D is the name of a
+.IR storruta ,
+a square with a 50km side.
+9e identifies a 5km square within 7D; this is also the area covered
+by one economical map produced by Lantmäteriverket (and indeed the
+.I name
+of such a map).
+The first part varies between 1A and 17N;
+the second between 0a and 9j.
+1A has coordinate 6100 1200.
+.PP
+To get higher resolution, \*[rubin] divides the side of this 5\[mu]5km
+square in 5, 50, or 500 pieces to get 1km, 100m or 10m resolution.
+.IP
+.TS
+lf(CB) ri .
+7D\ 9e\ ....	5 km
+7D\ 9e\ 3-0-	1 km
+7D\ 9e\ 3.0.
+7D\ 9e\ 3809	100 m
+7D\ 9e\ 38\ 09
+7D\ 9e\ 389\ 091	10 m
+.TE
+.PP
+These are the notations I have seen.
+Note the variant spacings and paddings.
+.
+.
+.SH "OPTIONS"
+.
+None.
+.
+.
+.SH "AUTHOR"
+.
+J\(:orgen Grahn
+.IR \[fo]grahn+src@snipabacken.se\[fc] .
+.PP
+The \*[rubin] part is based entirely on Björkbäck's (1980) text.
+.
+.
+.SH "LICENSE"
+.
+The Modified BSD license.
+.
+.
+.SH "SEE ALSO"
+.
+.HP
+Björkbäck, Folke (1980),
+.IR "Metoder att ange växtlokaler" .
+Svensk Botanisk Tidskrift 73 (6).
+.HP
+Österdahl, L. (1976),
+.IR "RUBIN (Rutin för biologiska inventeringar), Huvudmanual" .
+Biodata, Riksmuseum.
