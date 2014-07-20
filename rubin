@@ -61,12 +61,42 @@ sub from_rt90($) {
 }
 
 
+sub from_rubin($) {
+    my ($coord) = @_;
+    my $death = "'$coord': malformed RUBIN coordinate\n";
+    $coord =~ /^(\d{1,2})([A-N])\s+([0-9])([a-j])\s+([0-9 .-]+)$/ or die $death;
+    my ($nstor, $estor, $nekon, $eekon, $trailer) = ($1, $2, $3, $4, $5);
+    $nstor>=1 && $nstor<=32 or die $death;
+
+    my $nkm = 6100 + ($nstor - 1) * 50 + $nekon * 5;
+    $estor = ord($estor) - ord('A');
+    $eekon = ord($eekon) - ord('a');
+    my $ekm = 1200 + $estor * 50 + $eekon * 5;
+
+    if($trailer =~ /^\.\.\.\.$/) {
+	printf("%d %d\n", $nkm, $ekm);
+    }
+    elsif($trailer =~ /^([0-4])\.([0-4])\.$/ or $trailer =~ /^([0-4])-([0-4])-$/) {
+	printf("%d %d\n", $nkm + $1, $ekm + $2);
+    }
+    elsif($trailer =~ /^([0-4]\d)\s?([0-4]\d)$/) {
+	printf("%d %d\n", $nkm*10 + $1, $ekm*10 + $2);
+    }
+    elsif($trailer =~ /^([0-4]\d\d) ([0-4]\d\d)$/) {
+	printf("%d %d\n", $nkm*100 + $1, $ekm*100 + $2);
+    }
+    else {
+	die $death;
+    }
+}
+
+
 my $coord = join ' ', @ARGV;
 
 if($coord =~ /^\s*\d+\s+\d+\s*$/) {
     from_rt90 $coord;
 }
-elsif($coord =~ /^\d{1,2}[A-N] [0-9][a-j]/) {
+elsif($coord =~ /^\d{1,2}[A-N]\s+[0-9][a-j]/) {
     from_rubin $coord;
 }
 else {
