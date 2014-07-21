@@ -31,15 +31,26 @@ coordinates according to
 .B \*[rt90]
 and according to
 .BR \*[rubin] .
+.PP
+Provide a coordinate in either notation (see below for the syntax)
+and it will be printed in the other notation.
+Resolution is preserved, except
+.IP \- 3x
+A 5\ km \*[rubin] coordinate will be shown as the corresponding
+1\ km \*[rt90] coordinate.
+.IP \-
+A 1m \*[rt90] coordinate will be shown as the 10m \*[rubin] coordinate
+in which it lies: it's not clear whether \*[rubin] supports 1m resolution,
+or what the syntax would be if it did.
 .
 .SS "\*[rt90]"
 \*[rt90] (also known as
-.BR "Rikets nät" ,
+.BR "Rikets n\(:at" ,
 the
 .BR "Swedish grid" )
 is the most popular coordinate system for use in Sweden.
 Although \*[sweref99] is slowly replacing it, lots of
-existing data is expressed in that system.
+existing data is expressed in \*[rt90].
 .PP
 An \*[rt90] coordinate comes with a north and an east part,
 and 4-, 5-, 6- or 7-digit format, for example:
@@ -52,29 +63,34 @@ l ri .
 6448794\ 1370358	1 m
 .TE
 .PP
-The original intention was most likely that the coordinate would identify
+The original intention was that the coordinate would identify
 a square, with the coordinate sitting in the southwest corner.
-In current (2014) use it's common to see it as the center of
+In current (2014) use it's common to regard it as the center of
 a circle; in that case the 7-digit, 1m-resolution form is used,
 and with some luck the radius of the circle is given.
-For example,
+For example:
 .IP
 6448794\ 1370358 \[+-]5m
+.PP
+This is an obscure area. Likely, many users are not clear
+on whether they are describing a square, a circle or a point
+plus a maximum error.
+Also, the syntax does not appear to be standardized.
 .
 .SS "\*[rubin]"
 .
-\*[rubin] is in reality a wide set of standards and conventions used
-in biological surveys, but in this context it's synonymous with its
-coordinate format.
-This is really just a different encoding or notation for \*[rt90], designed
+\*[rubin] is in reality a set of standards and conventions used
+in biological surveys, but in this context it's synonymous with the
+coordinate format included therein.
+It's really just a different encoding or notation for \*[rt90], designed
 (among other things) to be more compact.
-Some time during the 1980s it gradually fell out of use, but a lot of
-data from the 1980s is still encoded in \*[rubin].
+During the 1980s it gradually fell out of use, but a lot of
+data from that time period is still encoded in \*[rubin].
 .PP
 Like \*[rt90], a \*[rubin] coordinate identifies a square via its
 southwestern corner, and of course also identifies its size.
 .PP
-The base of a coordinate is Lantmäteriverket's encoding of map names,
+The base of a coordinate is Lantm\(:ateriverket's encoding of map names,
 which in turn is based on \*[rt90].  For example,
 .IP
 7D\ 9e
@@ -84,11 +100,12 @@ which in turn is based on \*[rt90].  For example,
 .IR storruta ,
 a square with a 50km side.
 9e identifies a 5km square within 7D; this is also the area covered
-by one economical map produced by Lantmäteriverket (and indeed the
+by one economical map produced by Lantm\(:ateriverket (and indeed the
 .I name
 of such a map).
 The first part varies between 1A and 17N;
 the second between 0a and 9j.
+In both cases, the number encodes north, and the letter east.
 1A has coordinate 6100 1200.
 .PP
 To get higher resolution, \*[rubin] divides the side of this 5\[mu]5km
@@ -99,13 +116,17 @@ lf(CB) ri .
 7D\ 9e\ ....	5 km
 7D\ 9e\ 3-0-	1 km
 7D\ 9e\ 3.0.
-7D\ 9e\ 3809	100 m
-7D\ 9e\ 38\ 09
-7D\ 9e\ 389\ 091	10 m
+7D\ 9e\ 3703	100 m
+7D\ 9e\ 37\ 03
+7D\ 9e\ 379\ 035	10 m
 .TE
 .PP
 These are the notations I have seen.
-Note the variant spacings and paddings.
+Note the variant spacings and paddings.  Apparently a kilometer-resolution
+coordinate is never given as
+7D\ 9e\ 30,
+perhaps since that could be confused with a 100\ m coordinate
+broken across lines.
 .
 .
 .SH "OPTIONS"
@@ -113,12 +134,26 @@ Note the variant spacings and paddings.
 None.
 .
 .
+.SH "TEST DATA"
+.
+.TS
+ll li.
+6448 1370	7D 9e 3.0.	Hok\(:allan, \(oAlleberg
+64487 13703	7D 9e 3703
+644879 137035	7D 9e 379 035
+69329 15909	17H 6i 2909	Hammermyran, Medelpad
+693292 159095	17H 6i 292 095
+.TE
+.
+.
 .SH "AUTHOR"
 .
 J\(:orgen Grahn
 .IR \[fo]grahn+src@snipabacken.se\[fc] .
 .PP
-The \*[rubin] part is based entirely on Björkbäck's (1980) text.
+The \*[rubin] part is based entirely on Bj\(:orkb\(:ack's (1980) text;
+I have not had access to \(:Osterdahl (1976).
+In fact, information on \*[rubin] is surprisingly hard to find today.
 .
 .
 .SH "LICENSE"
@@ -129,10 +164,10 @@ The Modified BSD license.
 .SH "SEE ALSO"
 .
 .HP
-Björkbäck, Folke (1980),
-.IR "Metoder att ange växtlokaler" .
+Bj\(:orkb\(:ack, Folke (1980),
+.IR "Metoder att ange v\(:axtlokaler" .
 Svensk Botanisk Tidskrift 73 (6).
 .HP
-Österdahl, L. (1976),
-.IR "RUBIN (Rutin för biologiska inventeringar), Huvudmanual" .
+\(:Osterdahl, L. (1976),
+.IR "RUBIN (Rutin f\(:or biologiska inventeringar), Huvudmanual" .
 Biodata, Riksmuseum.
