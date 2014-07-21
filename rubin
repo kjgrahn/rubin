@@ -29,7 +29,7 @@ sub ekon($$) {
 sub from_rt90($) {
     my ($coord) = @_;
     my $death = "'$coord': malformed RT90 coordinate\n";
-    $coord =~ /([67]\d+) (1[2-9]\d+)/ or die $death;
+    $coord =~ /([67]\d+)\s+(1[2-9]\d+)/ or die $death;
     my ($n, $e) = ($1, $2);
 
     my $len = length $n;
@@ -63,7 +63,7 @@ sub from_rt90($) {
 
 my $coord = join ' ', @ARGV;
 
-if($coord =~ /^\d+\s\d+$/) {
+if($coord =~ /^\s*\d+\s+\d+\s*$/) {
     from_rt90 $coord;
 }
 elsif($coord =~ /^\d{1,2}[A-N] [0-9][a-j]/) {
