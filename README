@@ -1,0 +1,40 @@
+NAME
+       rubin - coordinate conversion between RUBIN and RT90
+
+SYNOPSIS
+       rubin coordinate
+       rubin --help
+
+DESCRIPTION
+       rubin is a small utility for safely converting between coordinates
+       according to RT90 and according to RUBIN.
+
+       Provide a coordinate in either notation (see below for the syntax)
+       and  it  will be printed in the other notation. Resolution is pre-
+       served, except [...]
+
+   RT90
+       RT90 (also known as Rikets nät, the Swedish grid) is the most pop-
+       ular coordinate system for use in Sweden.  Although  SWEREF 99  is
+       slowly replacing it, lots of existing data is expressed in RT90.
+
+   RUBIN
+       RUBIN  is  in  reality  a set of standards and conventions used in
+       biological surveys, but in this context it's synonymous  with  the
+       coordinate  format  included therein. It's really just a different
+       encoding or notation for RT90, designed to be (among other things)
+       more compact. During the 1980s it gradually fell out of use, but a
+       lot of data from that time period is still encoded in RUBIN.
+
+AUTHOR
+       Jörgen Grahn <grahn+src@snipabacken.se>.
+
+       The  RUBIN  part  is  based entirely on Björkbäck's (1980) text; I
+       have not had access to Österdahl (1976). In fact,  information  on
+       RUBIN is surprisingly hard to find today.
+
+LICENSE
+       The Modified BSD license.
+
+For more details, see the man page from which this text
+was extracted.
